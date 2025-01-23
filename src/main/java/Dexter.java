@@ -116,7 +116,7 @@ public class Dexter {
             if (t != null) {
                 lst.add(t);
                 String reply = "\t____________________________________________________________\n"
-                        + "\tGot it. I've added this task: \n"
+                        + "\tGot it. I've added this task:\n"
                         + "\t" + t.toString();
                 int siz = lst.size();;
                 System.out.println(reply);

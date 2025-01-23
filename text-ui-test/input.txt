@@ -1,0 +1,14 @@
+read book
+buy book
+eat chocolate
+todo borrow book
+mark 2
+sit down and relax
+event project meeting /from Mon 2pm /to 4pm
+mark 3
+list
+unmark 2
+mark 1
+list
+deadline return book /by Sunday
+bye
