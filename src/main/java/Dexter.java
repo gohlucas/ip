@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class Dexter {
     public static void main(String[] args) {
@@ -9,6 +11,7 @@ public class Dexter {
         + "\t____________________________________________________________\n";
 
         System.out.println(greet);
+        List<String> lst = new ArrayList<>();
         Scanner scan = new Scanner(System.in);
         String altReply = "\t____________________________________________________________\n"
                 + "\tBye, Hope to see you again soon!\n"
@@ -19,9 +22,18 @@ public class Dexter {
                 System.out.println(altReply);
                 break;
             }
+            if (input.equals("list")) {
+                System.out.println("\t____________________________________________________________\n");
+                for (int i = 0; i < lst.size(); i++) {
+                    System.out.println("\t" + String.valueOf(i + 1) + ". " + lst.get(i));
+                }
+                System.out.println("\t____________________________________________________________\n");
+                continue;
+            }
+            lst.add(input);
             String reply = "\t____________________________________________________________\n"
-                    + "\t" + input + "\n"
-                    + "\t____________________________________________________________\n";
+            + "\tadded: " + input + "\n"
+            + "\t____________________________________________________________\n";
             System.out.println(reply);
         }
     }
