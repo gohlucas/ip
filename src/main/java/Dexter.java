@@ -150,10 +150,20 @@ public class Dexter {
                     String[]b = descript.split("/");
                     t = new Event(b[0], b[1].split(" ", 2)[1], b[2].split(" ", 2)[1]);
                 }
+
+                if (input.equals("delete")) {
+                    int pos = Integer.valueOf(descript) - 1;
+                    t = lst.get(pos);
+                    lst.remove(pos);
+                }
                 if (t != null) {
-                    lst.add(t);
+                    String ans = input.equals("delete") ? "\tNoted. I've removed this task:\n"
+                            : "\tGot it. I've added this task:\n";
+                    if (!input.equals("delete")) {
+                        lst.add(t);
+                    }
                     String reply = "\t____________________________________________________________\n"
-                            + "\tGot it. I've added this task:\n"
+                            + ans
                             + "\t" + t.toString();
                     int siz = lst.size();;
                     System.out.println(reply);
@@ -164,7 +174,7 @@ public class Dexter {
 
                 if (input.equals("mark") || input.equals("unmark")) {
                     int j = Integer.parseInt(descript);
-                    Task a = lst.get(j);
+                    Task a = lst.get(j - 1);
                     a.changeDoneStatus(input);
                     String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
                             : "Ok, I've marked this task as not done yet:\n";
