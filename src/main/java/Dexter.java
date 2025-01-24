@@ -96,55 +96,64 @@ public class Dexter {
                 continue;
             }
 
-            String[] keyWord = input.split(" ", 2);
-            input = keyWord[0];
-            String descript = keyWord[1];
-            Task t = null;
-            if (input.equals("todo")) {
-                t = new ToDo(descript);
-            }
+            try {
+                String[] keyWord = input.split(" ", 2);
+                input = keyWord[0];
+                String err = "Error, not enough arguments";
+                if (keyWord.length < 2) {
+                    throw new IllegalArgumentException((err));
+                }
+                String descript = keyWord[1];
 
-            if (input.equals("deadline")) {
-                String[]b = descript.split("/");
-                t = new Deadline(b[0], b[1].split(" ", 2)[1]);
-            }
+                Task t = null;
+                if (input.equals("todo")) {
+                    t = new ToDo(descript);
+                }
 
-            if (input.equals("event")) {
-                String[]b = descript.split("/");
-                t = new Event(b[0], b[1].split(" ", 2)[1], b[2].split(" ", 2)[1]);
-            }
-            if (t != null) {
-                lst.add(t);
-                String reply = "\t____________________________________________________________\n"
-                        + "\tGot it. I've added this task:\n"
-                        + "\t" + t.toString();
-                int siz = lst.size();;
-                System.out.println(reply);
-                System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n"
-                        + "\t____________________________________________________________\n");
-                continue;
-            }
+                if (input.equals("deadline")) {
+                    String[]b = descript.split("/");
+                    t = new Deadline(b[0], b[1].split(" ", 2)[1]);
+                }
 
-            if (input.equals("mark") || input.equals("unmark")) {
-                int j = Integer.parseInt(descript);
-                Task a = lst.get(j);
-                a.changeDoneStatus(input);
-                String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
-                        : "Ok, I've marked this task as not done yet:\n";
-                String s = "\t____________________________________________________________\n"
-                        + "\t" + reply + "\n"
-                        + "\t" + a.toString() + "\n"
-                        + "\t____________________________________________________________\n";
-                System.out.println(s);
-                continue;
+                if (input.equals("event")) {
+                    String[]b = descript.split("/");
+                    t = new Event(b[0], b[1].split(" ", 2)[1], b[2].split(" ", 2)[1]);
+                }
+                if (t != null) {
+                    lst.add(t);
+                    String reply = "\t____________________________________________________________\n"
+                            + "\tGot it. I've added this task:\n"
+                            + "\t" + t.toString();
+                    int siz = lst.size();;
+                    System.out.println(reply);
+                    System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n"
+                            + "\t____________________________________________________________\n");
+                    continue;
+                }
+
+                if (input.equals("mark") || input.equals("unmark")) {
+                    int j = Integer.parseInt(descript);
+                    Task a = lst.get(j);
+                    a.changeDoneStatus(input);
+                    String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
+                            : "Ok, I've marked this task as not done yet:\n";
+                    String s = "\t____________________________________________________________\n"
+                            + "\t" + reply + "\n"
+                            + "\t" + a.toString() + "\n"
+                            + "\t____________________________________________________________\n";
+                    System.out.println(s);
+                    continue;
+                }
+                String rehash = input + " " + descript;
+                Task a = new Task(rehash);
+                lst.add(a);
+                String resp = "\t____________________________________________________________\n"
+                + "\tadded: " + rehash + "\n"
+                + "\t____________________________________________________________\n";
+                System.out.println(resp);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
-            String rehash = input + " " + descript;
-            Task a = new Task(rehash);
-            lst.add(a);
-            String resp = "\t____________________________________________________________\n"
-            + "\tadded: " + rehash + "\n"
-            + "\t____________________________________________________________\n";
-            System.out.println(resp);
         }
     }
 }
