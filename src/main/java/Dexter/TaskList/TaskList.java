@@ -1,5 +1,7 @@
-import java.util.ArrayList;
+package Dexter.TaskList;
 
+import Dexter.Task.Task;
+import java.util.ArrayList;
 
 public class TaskList {
     String LINE = "\t____________________________________________________________\n";
@@ -31,7 +33,7 @@ public class TaskList {
         StringBuilder builder = new StringBuilder();
         builder.append(LINE);
         for (int i = 0; i < myList.size(); i++) {
-            String s = "\t" + String.valueOf(i + 1) + ". " + myList.get(i);
+            String s = "\t" + String.valueOf(i + 1) + ". " + myList.get(i) + "\n";
             builder.append(s);
         }
         builder.append(LINE);
