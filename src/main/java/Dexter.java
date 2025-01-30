@@ -3,19 +3,37 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 // refactor code to reduce repetition
 public class Dexter {
     public static class Task {
         private String description;
         private boolean isDone;
 
-        public Task(String description) {
+        private LocalDate t;
+
+        public Task(String description, LocalDate t) {
             this.description = description;
             this.isDone = false;
+            this.t = t;
         }
 
         public void changeDoneStatus(String bool) {
             this.isDone = bool.equals("mark");
+        }
+
+        public boolean isDue(LocalDate t) {
+            if (this.t == null) {
+                return false;
+            }
+            return this.t.equals(t);
+        }
+
+        public String getDate() {
+            return this.t.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
         }
 
         @Override
@@ -26,11 +44,9 @@ public class Dexter {
     }
 
     public static class Deadline extends Task {
-        private String by;
 
         public Deadline(String description, String by, String mark) {
-            super(description);
-            this.by = by;
+            super(description, LocalDate.parse(by));
             super.changeDoneStatus(mark);
         }
 
@@ -40,19 +56,29 @@ public class Dexter {
 
         @Override
         public String toString() {
-            return "[D]" + super.toString() + " (by: " + by + ")";
+            return "[D]" + super.toString() + " (by: " + super.getDate() + ")";
         }
     }
 
     public static class ToDo extends Task {
 
         public ToDo(String description, String mark) {
-            super(description);
+            super(description, null);
             super.changeDoneStatus(mark);
         }
 
         public ToDo(String description) {
             this(description, "unmark");
+        }
+
+        @Override
+        public boolean isDue(LocalDate t) {
+            return false;
+        }
+
+        @Override
+        public String getDate() {
+            return null;
         }
         @Override
         public String toString() {
@@ -65,20 +91,20 @@ public class Dexter {
         private String from;
         private String to;
 
-        public Event(String description, String from, String to, String mark) {
-            super(description);
+        public Event(String description, LocalDate ld, String from, String to, String mark) {
+            super(description, ld);
             this.from = from;
             this.to = to;
             super.changeDoneStatus(mark);
         }
 
-        public Event(String description, String from, String to) {
-            this(description, from, to, "unmark");
+        public Event(String description, LocalDate ld, String from, String to) {
+            this(description, ld, from, to, "unmark");
         }
 
         @Override
         public String toString() {
-            return "[E]" + super.toString() + " (from: " + from + ")" + " (to: " + to + ")";
+            return "[E]" + super.toString() + " (from: " + super.getDate() + " " + from + ")" + " (to: " + to + ")";
         }
     }
 
@@ -131,7 +157,13 @@ public class Dexter {
 
         if (input.equals("E")) {
             String[]b = descript.split("/");
-            t = new Event(b[0], b[1].split(" ", 2)[1], b[2].split(" ", 2)[1], mark);
+            String temp = b[1].split(" ", 2)[1].strip();
+            int i = temp.lastIndexOf(" ");
+            LocalDate ld = LocalDate.parse(temp.substring(0, i));
+            System.out.println(ld);
+            System.out.println("look here");
+            String from = temp.substring(i).strip();
+            t = new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip(), mark);
         }
 
         return t;
@@ -204,7 +236,11 @@ public class Dexter {
 
                 if (input.equals("event")) {
                     String[]b = descript.split("/");
-                    t = new Event(b[0], b[1].split(" ", 2)[1], b[2].split(" ", 2)[1]);
+                    String temp = b[1].split(" ", 2)[1].strip();
+                    int i = temp.lastIndexOf(" ");
+                    LocalDate ld = LocalDate.parse(temp.substring(0, i));
+                    String from = temp.substring(i).strip();
+                    t = new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip());
                 }
 
                 if (input.equals("delete")) {
@@ -242,8 +278,23 @@ public class Dexter {
                     continue;
                 }
 
+                if (input.equals("due")) {
+                    System.out.println("\t____________________________________________________________\n");
+                    int i = lst.size();
+                    for (int j = 0; j < i; j++) {
+                        Task z = lst.get(j);
+                        LocalDate pp = LocalDate.parse(descript.strip());
+                        if (z.isDue(pp)) {
+                            System.out.println("\t" + z);
+                        }
+                    }
+                    System.out.println("\t____________________________________________________________\n");
+                    continue;
+                }
+
                 String rehash = input + " " + descript;
-                Task a = new Task(rehash);
+                String temp = Character.toUpperCase(input.charAt(0)) + " 0 " + descript;
+                Task a = createTask(temp);
                 lst.add(a);
                 String resp = "\t____________________________________________________________\n"
                 + "\tadded: " + rehash + "\n"
