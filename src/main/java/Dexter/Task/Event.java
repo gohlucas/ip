@@ -1,3 +1,5 @@
+package Dexter.Task;
+
 import java.time.LocalDate;
 
 public class Event extends Task {
@@ -8,7 +10,6 @@ public class Event extends Task {
         super(description, ld, mark);
         this.from = from;
         this.to = to;
-//            super.changeDoneStatus(mark);
     }
 
     public Event(String description, LocalDate ld, String from, String to) {

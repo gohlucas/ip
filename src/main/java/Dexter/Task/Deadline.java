@@ -1,4 +1,4 @@
-package Dexter.Task.Deadline;
+package Dexter.Task;
 
 import java.time.LocalDate;
 
