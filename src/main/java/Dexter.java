@@ -1,6 +1,8 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
+import java.io.File;
 // refactor code to reduce repetition
 public class Dexter {
     public static class Task {
@@ -97,6 +99,20 @@ public class Dexter {
     }
 
     public static void main(String[] args) {
+
+        File f = new File("Data.txt");
+        try {
+            Scanner s = new Scanner(f);
+            while(s.hasNext()) {
+                String t = s.nextLine();
+                continue; // do something
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no existing database, will start with no data");
+        }
+
+
+
         String greet = "\t____________________________________________________________\n"
         + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
         + "\tWhat can I do for you?\n"
@@ -115,6 +131,7 @@ public class Dexter {
 
             if (input.equals("bye")) {
                 System.out.println(altReply);
+                scan.close();
                 break;
             }
 
