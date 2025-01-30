@@ -28,9 +28,14 @@ public class Dexter {
     public static class Deadline extends Task {
         private String by;
 
-        public Deadline(String description, String by) {
+        public Deadline(String description, String by, String mark) {
             super(description);
             this.by = by;
+            super.changeDoneStatus(mark);
+        }
+
+        public Deadline(String description, String by) {
+            this(description, by, "unmark");
         }
 
         @Override
@@ -41,8 +46,13 @@ public class Dexter {
 
     public static class ToDo extends Task {
 
-        public ToDo(String description) {
+        public ToDo(String description, String mark) {
             super(description);
+            super.changeDoneStatus(mark);
+        }
+
+        public ToDo(String description) {
+            this(description, "unmark");
         }
         @Override
         public String toString() {
@@ -55,10 +65,15 @@ public class Dexter {
         private String from;
         private String to;
 
-        public Event(String description, String from, String to) {
+        public Event(String description, String from, String to, String mark) {
             super(description);
             this.from = from;
             this.to = to;
+            super.changeDoneStatus(mark);
+        }
+
+        public Event(String description, String from, String to) {
+            this(description, from, to, "unmark");
         }
 
         @Override
@@ -98,20 +113,44 @@ public class Dexter {
         }
     }
 
-    public static void main(String[] args) {
+    public static Task createTask(String input) {
+        String[] keyWord = input.split(" ", 3);
+        input = keyWord[0];
+        String mark = keyWord[1].equals("1") ? "mark" : "unmark";
+        String descript = keyWord[2];
 
-        File f = new File("Data.txt");
+        Task t = null;
+        if (input.equals("T")) {
+            t = new ToDo(descript, mark);
+        }
+
+        if (input.equals("D")) {
+            String[]b = descript.split("/");
+            t = new Deadline(b[0], b[1].split(" ", 2)[1], mark);
+        }
+
+        if (input.equals("E")) {
+            String[]b = descript.split("/");
+            t = new Event(b[0], b[1].split(" ", 2)[1], b[2].split(" ", 2)[1], mark);
+        }
+
+        return t;
+    }
+
+    public static void main(String[] args) {
+        List<Task> lst = new ArrayList<>();
         try {
+            File f = new File("Data.txt");
             Scanner s = new Scanner(f);
             while(s.hasNext()) {
                 String t = s.nextLine();
-                continue; // do something
+                Task p = createTask(t);
+                lst.add(p);
             }
+            s.close();
         } catch (FileNotFoundException e) {
             System.out.println("There is no existing database, will start with no data");
         }
-
-
 
         String greet = "\t____________________________________________________________\n"
         + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
@@ -121,7 +160,7 @@ public class Dexter {
 
         System.out.println(greet);
 
-        List<Task> lst = new ArrayList<>();
+
         Scanner scan = new Scanner(System.in);
         String altReply = "\t____________________________________________________________\n"
                 + "\tBye, Hope to see you again soon!\n"
@@ -211,7 +250,6 @@ public class Dexter {
                 + "\t____________________________________________________________\n";
                 System.out.println(resp);
             } catch (IllegalArgumentException e) {
-
                 System.out.println(e.getMessage());
             }
         }
