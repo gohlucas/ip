@@ -11,6 +11,12 @@ public class ToDo extends Task {
         this(description, "unmark");
     }
     @Override
+    public String getAll() {
+//        String tt1 = super.toString().replaceAll("\\(", "/");
+//        String tt2 = tt1.replaceAll(":", "");
+        return "T " + super.getAll();
+    }
+    @Override
     public boolean isDue(LocalDate t) {
         return false;
     }

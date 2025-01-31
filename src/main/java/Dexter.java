@@ -22,7 +22,8 @@ public class Dexter {
     }
 
     public void run() {
-        ui.run(tasks);
+        tasks = ui.run(tasks);
+        storage.save(tasks);
     }
 
     public static void main(String[] args) {
