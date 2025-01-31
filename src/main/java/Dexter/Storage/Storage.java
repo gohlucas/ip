@@ -1,10 +1,13 @@
 package Dexter.Storage;
 
+import Dexter.TaskList.TaskList;
 import Dexter.Ui.Ui;
 import Dexter.Task.Task;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Storage {
@@ -23,6 +26,16 @@ public class Storage {
         }
         s.close();
         return myList;
-//       System.out.println("There is no existing database, will start with no data");
+    }
+
+    public void save(TaskList lst) {
+        String s = lst.toSave();
+        try {
+            FileWriter fw = new FileWriter(f, false);
+            fw.write(s);
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("error, IO Exception");
+        }
     }
 }

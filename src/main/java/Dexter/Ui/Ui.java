@@ -9,6 +9,7 @@ import Dexter.TaskList.TaskList;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ui {
@@ -67,7 +68,7 @@ public class Ui {
         return t;
     }
 
-    public void run(TaskList tasks) {
+    public TaskList run(TaskList tasks) {
         String greet = LINE + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
                 + "\tWhat can I do for you?\n"
                 + "\tDo you need help with investigating a crime scene?\n" + LINE;
@@ -92,7 +93,6 @@ public class Ui {
             try {
                 String[] keyWord = input.split(" ", 2);
                 input = keyWord[0];
-                String err = "Error, not enough arguments";
                 if (keyWord.length < 2) {
                     handleExcept(input);
                 }
@@ -103,7 +103,7 @@ public class Ui {
                     t = new ToDo(descript);
                 }
                 // needs arrayindexoutofboundsexception
-                if (input.equals("deadline")) {
+                else if (input.equals("deadline")) {
                     String[] b = descript.split("/");
                     LocalDate ld = Parser.myParser(b[1].split(" ", 2)[1]);
                     if (ld == null) {
@@ -112,7 +112,7 @@ public class Ui {
                     t = new Deadline(b[0], ld);
                 }
 
-                if (input.equals("event")) {
+                else if (input.equals("event")) {
                     String[] b = descript.split("/");
                     String temp = b[1].split(" ", 2)[1].strip();
                     int i = temp.lastIndexOf(" ");
@@ -124,26 +124,13 @@ public class Ui {
                     t = new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip());
                 }
 
-                if (input.equals("delete")) {
+                else if (input.equals("delete")) {
                     int pos = Integer.valueOf(descript) - 1;
                     t = tasks.get(pos);
                     tasks.remove(pos);
                 }
-                if (t != null) {
-                    String ans = input.equals("delete") ? "\tNoted. I've removed this task:\n"
-                            : "\tGot it. I've added this task:\n";
-                    if (!input.equals("delete")) {
-                        tasks.add(t);
-                    }
-                    String reply = LINE + ans + "\t" + t.toString();
-                    int siz = tasks.size();
-                    ;
-                    System.out.println(reply);
-                    System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE);
-                    continue;
-                }
 
-                if (input.equals("mark") || input.equals("unmark")) {
+                else if (input.equals("mark") || input.equals("unmark")) {
                     int j = Integer.parseInt(descript);
                     Task a = tasks.get(j - 1);
                     a.changeDoneStatus(input);
@@ -154,7 +141,7 @@ public class Ui {
                     continue;
                 }
 
-                if (input.equals("due")) {
+                else if (input.equals("due")) {
                     System.out.println(LINE);
                     int i = tasks.size();
                     for (int j = 0; j < i; j++) {
@@ -171,6 +158,24 @@ public class Ui {
                     continue;
                 }
 
+                else {
+                    handleExcept(" ");
+                }
+
+                if (t != null) {
+                    String ans = input.equals("delete") ? "\tNoted. I've removed this task:\n"
+                            : "\tGot it. I've added this task:\n";
+                    if (!input.equals("delete")) {
+                        tasks.add(t);
+                    }
+                    String reply = LINE + ans + "\t" + t.toString();
+                    int siz = tasks.size();
+                    ;
+                    System.out.println(reply);
+                    System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE);
+                    continue;
+                }
+
                 String rehash = input + " " + descript;
                 String temp = Character.toUpperCase(input.charAt(0)) + " 0 " + descript;
                 Task a = createTask(temp);
@@ -181,6 +186,7 @@ public class Ui {
                 System.out.println(e.getMessage());
             }
         }
+        return tasks;
     }
     public void showingError() {
         System.out.println("There is no existing database, will start with no data");

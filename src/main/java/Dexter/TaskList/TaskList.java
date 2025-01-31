@@ -28,6 +28,14 @@ public class TaskList {
     public int size() {
         return this.myList.size();
     }
+    public String toSave() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < myList.size(); i++) {
+            String s = myList.get(i).getAll() + "\n";
+            builder.append(s);
+        }
+        return builder.toString();
+    }
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -25,6 +25,16 @@ public abstract class Task {
         if (this.t == null) { return null; }
         return this.t.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
     }
+
+    public LocalDate getPseudoDate() {
+        return this.t;
+    }
+
+    public String getAll() {
+        String i = this.isDone ? "1" : "0";
+        return i + " " + this.description;
+    }
+
     @Override
     public String toString() {
         String mark = (this.isDone) ? "X" : " ";
