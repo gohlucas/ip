@@ -11,6 +11,9 @@ import dexter.taskList.TaskList;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ * Serves as the logic behind interactions with the user
+ */
 public class Ui {
     String LINE = "\t____________________________________________________________\n";
 
@@ -32,6 +35,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Handles exceptions from user input
+     * @param txt user input of task type
+     * @throws IllegalArgumentException
+     */
     public void handleExcept(String txt) throws IllegalArgumentException {
         switch (txt) {
             case "todo":
@@ -45,6 +53,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Creates tasks for processing by filtering by task type
+     * @param input user input of task specifications
+     * @return task for processing
+     */
     public static Task createTask(String input) {
         String[] keyWord = input.split(" ", 3);
         input = keyWord[0];
@@ -67,6 +80,11 @@ public class Ui {
         return t;
     }
 
+    /**
+     * Feeds text and reponds to interactions with user
+     * @param tasks pre-processes any existing tasks
+     * @return list of tasks to be saved
+     */
     public TaskList run(TaskList tasks) {
         String greet = LINE + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
                 + "\tWhat can I do for you?\n"
@@ -187,6 +205,10 @@ public class Ui {
         }
         return tasks;
     }
+
+    /**
+     * Prints error for user
+     */
     public void showingError() {
         System.out.println("There is no existing database, will start with no data");
     }
