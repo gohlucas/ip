@@ -1,15 +1,14 @@
-package Dexter.Ui;
+package dexter.ui;
 
-import Dexter.Parser.Parser;
-import Dexter.Task.Event;
-import Dexter.Task.Task;
-import Dexter.Task.ToDo;
-import Dexter.Task.Deadline;
-import Dexter.TaskList.TaskList;
+import dexter.parser.Parser;
+import dexter.task.Event;
+import dexter.task.Task;
+import dexter.task.ToDo;
+import dexter.task.Deadline;
+import dexter.taskList.TaskList;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ui {

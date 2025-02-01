@@ -1,6 +1,8 @@
-import Dexter.Storage.Storage;
-import Dexter.TaskList.TaskList;
-import Dexter.Ui.Ui;
+package dexter;
+
+import dexter.storage.Storage;
+import dexter.taskList.TaskList;
+import dexter.ui.Ui;
 
 import java.io.FileNotFoundException;
 
