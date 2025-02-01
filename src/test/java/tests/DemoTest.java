@@ -10,10 +10,6 @@ import dexter.taskList.TaskList;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 public class DemoTest {
-    @Test
-    public void demoTest() {
-        System.out.println("Demo Test");
-    }
 
     @Test
     /*
@@ -42,7 +38,6 @@ public class DemoTest {
 
             Storage after = new Storage("data.txt");
             myAfter = new TaskList(after.load());
-
             assert(myAfter.toString().equals(myExtra.toString()));
             storageD.save(myCopy);
         } catch (FileNotFoundException e) {

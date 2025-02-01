@@ -12,8 +12,6 @@ public class Deadline extends Task {
     }
     @Override
     public String getAll() {
-//        String tt1 = super.toString().replaceAll("\\(", "/");
-//        String tt2 = tt1.replaceAll(":", "");
         return "D " + super.getAll() + "/by " + super.getPseudoDate();
     }
     @Override
