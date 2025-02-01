@@ -7,7 +7,6 @@ import dexter.task.ToDo;
 import dexter.task.Deadline;
 import dexter.taskList.TaskList;
 
-
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -34,14 +33,14 @@ public class Ui {
 
     public void handleExcept(String txt) throws IllegalArgumentException {
         switch (txt) {
-            case "todo":
-                throw new ToDoException("todo requires an task description");
-            case "deadline":
-                throw new DeadlineException(("deadline requires a end timing"));
-            case "event":
-                throw new EventException("event requires a start and end timing");
-            default:
-                throw new IllegalArgumentException("I'm not quite sure what you mean");
+        case "todo":
+            throw new ToDoException("todo requires an task description");
+        case "deadline":
+            throw new DeadlineException(("deadline requires a end timing"));
+        case "event":
+            throw new EventException("event requires a start and end timing");
+        default:
+            throw new IllegalArgumentException("I'm not quite sure what you mean");
         }
     }
 
@@ -54,16 +53,11 @@ public class Ui {
         Task t = null;
         if (input.equals("T")) {
             t = Parser.equalsToDo(descript, mark);
-        }
-
-        if (input.equals("D")) {
+        } else if (input.equals("D")) {
             t = Parser.equalsDeadline(descript, mark);
-        }
-
-        if (input.equals("E")) {
+        } else if (input.equals("E")) {
             t = Parser.equalsEvent(descript, mark);
         }
-
         return t;
     }
 
@@ -82,9 +76,7 @@ public class Ui {
                 System.out.println(altReply);
                 scan.close();
                 break;
-            }
-
-            if (input.equals("list")) {
+            } else if (input.equals("list")) {
                 System.out.println(tasks);
                 continue;
             }
@@ -100,52 +92,43 @@ public class Ui {
                 Task t = null;
                 if (input.equals("todo")) {
                     t = new ToDo(descript);
-                }
-                // needs arrayindexoutofboundsexception
-                else if (input.equals("deadline")) {
+                } else if (input.equals("deadline")) {
+                    // could use ArrayOutOfBoundsException
                     String[] b = descript.split("/");
-                    LocalDate ld = Parser.myParser(b[1].split(" ", 2)[1]);
+                    LocalDate ld = Parser.parseSafely(b[1].split(" ", 2)[1]);
                     if (ld == null) {
                         continue;
                     }
                     t = new Deadline(b[0], ld);
-                }
-
-                else if (input.equals("event")) {
+                } else if (input.equals("event")) {
                     String[] b = descript.split("/");
                     String temp = b[1].split(" ", 2)[1].strip();
                     int i = temp.lastIndexOf(" ");
-                    LocalDate ld = Parser.myParser(temp.substring(0, i));
+                    LocalDate ld = Parser.parseSafely(temp.substring(0, i));
                     if (ld == null) {
                         continue;
                     }
                     String from = temp.substring(i).strip();
                     t = new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip());
-                }
-
-                else if (input.equals("delete")) {
+                } else if (input.equals("delete")) {
                     int pos = Integer.valueOf(descript) - 1;
                     t = tasks.get(pos);
                     tasks.remove(pos);
-                }
-
-                else if (input.equals("mark") || input.equals("unmark")) {
+                } else if (input.equals("mark") || input.equals("unmark")) {
                     int j = Integer.parseInt(descript);
                     Task a = tasks.get(j - 1);
-                    a.changeDoneStatus(input);
+                    a.negateCurrentStatus(input);
                     String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
                             : "Ok, I've marked this task as not done yet:\n";
                     String s = LINE + "\t" + reply + "\n" + "\t" + a.toString() + "\n" + LINE;
                     System.out.println(s);
                     continue;
-                }
-
-                else if (input.equals("due")) {
+                } else if (input.equals("due")) {
                     System.out.println(LINE);
                     int i = tasks.size();
                     for (int j = 0; j < i; j++) {
                         Task z = tasks.get(j);
-                        LocalDate pp = Parser.myParser(descript.strip());
+                        LocalDate pp = Parser.parseSafely(descript.strip());
                         if (pp == null) {
                             continue;
                         }
@@ -155,9 +138,7 @@ public class Ui {
                     }
                     System.out.println(LINE);
                     continue;
-                }
-
-                else {
+                } else {
                     handleExcept(" ");
                 }
 
@@ -187,7 +168,7 @@ public class Ui {
         }
         return tasks;
     }
-    public void showingError() {
+    public void showError() {
         System.out.println("There is no existing database, will start with no data");
     }
 }

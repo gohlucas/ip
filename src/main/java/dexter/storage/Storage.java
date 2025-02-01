@@ -1,8 +1,8 @@
 package dexter.storage;
 
 import dexter.taskList.TaskList;
-import dexter.ui.Ui;
 import dexter.task.Task;
+import dexter.ui.Ui;
 
 import java.io.File;
 import java.io.FileWriter;

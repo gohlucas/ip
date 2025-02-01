@@ -18,7 +18,7 @@ public class Dexter {
             ui = new Ui();
             tasks = new TaskList(storage.load());
         } catch (FileNotFoundException e) {
-            ui.showingError();
+            ui.showError();
             tasks = new TaskList();
         }
     }
