@@ -1,6 +1,6 @@
-package Dexter.TaskList;
+package dexter.taskList;
 
-import Dexter.Task.Task;
+import dexter.task.Task;
 import java.util.ArrayList;
 
 public class TaskList {

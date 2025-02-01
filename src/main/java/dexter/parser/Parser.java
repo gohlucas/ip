@@ -1,9 +1,9 @@
-package Dexter.Parser;
+package dexter.parser;
 
-import Dexter.Task.Deadline;
-import Dexter.Task.Event;
-import Dexter.Task.ToDo;
-import Dexter.Task.Task;
+import dexter.task.Deadline;
+import dexter.task.Event;
+import dexter.task.ToDo;
+import dexter.task.Task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
