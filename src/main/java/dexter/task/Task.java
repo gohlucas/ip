@@ -34,7 +34,17 @@ public abstract class Task {
         String i = this.isDone ? "1" : "0";
         return i + " " + this.description;
     }
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Task) || o == null) {
+            return false;
+        }
+        Task temp = (Task) o;
+        return this.toString().equals(temp.toString());
+    }
     @Override
     public String toString() {
         String mark = (this.isDone) ? "X" : " ";

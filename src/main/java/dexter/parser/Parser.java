@@ -23,7 +23,7 @@ public class Parser {
     public static Task equalsDeadline(String descript, String mark) {
         String[]b = descript.split("/");
         LocalDate ld = Parser.myParser(b[1].split(" ", 2)[1]);
-        return new Deadline(b[0], ld, mark);
+        return new Deadline(b[0].strip(), ld, mark);
     }
     public static Task equalsEvent(String descript, String mark) {
         String[]b = descript.split("/");
@@ -31,6 +31,6 @@ public class Parser {
         int i = temp.lastIndexOf(" ");
         LocalDate ld = Parser.myParser(temp.substring(0, i));
         String from = temp.substring(i).strip();
-        return new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip(), mark);
+        return new Event(b[0].strip(), ld, from, b[2].split(" ", 2)[1].strip(), mark);
     }
 }
