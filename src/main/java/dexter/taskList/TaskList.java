@@ -36,6 +36,17 @@ public class TaskList {
         }
         return builder.toString();
     }
+    public TaskList findKeyword(String keyword) {
+        ArrayList<Task> keywordList = new ArrayList<>();
+        for (int i = 0; i < myList.size(); i++) {
+            Task a = this.myList.get(i);
+            String b = a.getAll();
+            if (b.contains(keyword)) {
+                keywordList.add(a);
+            }
+        }
+        return new TaskList(keywordList);
+    }
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
