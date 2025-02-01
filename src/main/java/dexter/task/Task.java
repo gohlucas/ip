@@ -12,7 +12,7 @@ public abstract class Task {
         this.isDone = bool.equals("mark");
         this.t = t;
     }
-    public void changeDoneStatus(String bool) {
+    public void negateCurrentStatus(String bool) {
         this.isDone = bool.equals("mark");
     }
     public boolean isDue(LocalDate t) {
@@ -22,7 +22,9 @@ public abstract class Task {
         return this.t.equals(t);
     }
     public String getDate() {
-        if (this.t == null) { return null; }
+        if (this.t == null) {
+            return null;
+        }
         return this.t.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
     }
 

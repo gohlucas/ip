@@ -17,8 +17,6 @@ public class Event extends Task {
     }
     @Override
     public String getAll() {
-//        String tt1 = super.toString().replaceAll("\\(", "/");
-//        String tt2 = tt1.replaceAll(":", "");
         return "E " + super.getAll() + "/from " + super.getPseudoDate() + " " + this.from + " /to " + this.to;
     }
     @Override
