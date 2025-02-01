@@ -149,11 +149,15 @@ public class Ui {
                         if (pp == null) {
                             continue;
                         }
-                        if (z.isDue(pp)) {
-                            System.out.println("\t" + z);
+                        if (z.isDue(pp)) {System.out.println("\t" + z);
                         }
                     }
                     System.out.println(LINE);
+                    continue;
+                } else if (input.equals("find")) {
+                     TaskList e = tasks.findKeyword(descript);
+                    System.out.println("\t Here are the matching tasks in your list:");
+                    System.out.println(e);
                     continue;
                 }
 
@@ -169,7 +173,6 @@ public class Ui {
                     }
                     String reply = LINE + ans + "\t" + t.toString();
                     int siz = tasks.size();
-                    ;
                     System.out.println(reply);
                     System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE);
                     continue;
