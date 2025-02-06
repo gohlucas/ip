@@ -1,33 +1,40 @@
 package dexter.ui;
 
+import java.time.LocalDate;
+import java.util.Scanner;
+
 import dexter.parser.Parser;
+import dexter.task.Deadline;
 import dexter.task.Event;
 import dexter.task.Task;
 import dexter.task.ToDo;
-import dexter.task.Deadline;
-import dexter.taskList.TaskList;
-
-import java.time.LocalDate;
-import java.util.Scanner;
+import dexter.tasklist.TaskList;
 
 /**
  * Serves as the logic behind interactions with the user
  */
 public class Ui {
-    String LINE = "\t____________________________________________________________\n";
+    private static final String LINE_BREAK = "\t____________________________________________________________\n";
 
+    /**
+     * Provides custom exception to handle error
+     */
     public class ToDoException extends IllegalArgumentException {
         ToDoException(String message) {
             super(message);
         }
     }
-
+    /**
+     * Provides custom exception to handle error
+     */
     public class DeadlineException extends IllegalArgumentException {
         DeadlineException(String message) {
             super(message);
         }
     }
-
+    /**
+     * Provides custom exception to handle error
+     */
     public class EventException extends IllegalArgumentException {
         EventException(String message) {
             super(message);
@@ -75,18 +82,18 @@ public class Ui {
     }
 
     /**
-     * Feeds text and reponds to interactions with user
+     * Feeds text and responds to interactions with user
      * @param tasks pre-processes any existing tasks
      * @return list of tasks to be saved
      */
     public TaskList run(TaskList tasks) {
-        String greet = LINE + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
+        String greet = LINE_BREAK + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
                 + "\tWhat can I do for you?\n"
-                + "\tDo you need help with investigating a crime scene?\n" + LINE;
+                + "\tDo you need help with investigating a crime scene?\n" + LINE_BREAK;
         System.out.println(greet);
 
         Scanner scan = new Scanner(System.in);
-        String altReply = LINE + "\tBye, Hope to see you again soon!\n" + LINE;
+        String altReply = LINE_BREAK + "\tBye, Hope to see you again soon!\n" + LINE_BREAK;
         while (true) {
             String input = scan.nextLine();
 
@@ -138,11 +145,11 @@ public class Ui {
                     a.negateCurrentStatus(input);
                     String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
                             : "Ok, I've marked this task as not done yet:\n";
-                    String s = LINE + "\t" + reply + "\n" + "\t" + a.toString() + "\n" + LINE;
+                    String s = LINE_BREAK + "\t" + reply + "\n" + "\t" + a.toString() + "\n" + LINE_BREAK;
                     System.out.println(s);
                     continue;
                 } else if (input.equals("due")) {
-                    System.out.println(LINE);
+                    System.out.println(LINE_BREAK);
                     int i = tasks.size();
                     for (int j = 0; j < i; j++) {
                         Task z = tasks.get(j);
@@ -150,19 +157,18 @@ public class Ui {
                         if (pp == null) {
                             continue;
                         }
-                        if (z.isDue(pp)) {System.out.println("\t" + z);
+                        if (z.isDue(pp)) {
+                            System.out.println("\t" + z);
                         }
                     }
-                    System.out.println(LINE);
+                    System.out.println(LINE_BREAK);
                     continue;
                 } else if (input.equals("find")) {
-                     TaskList e = tasks.findKeyword(descript);
+                    TaskList e = tasks.findKeyword(descript);
                     System.out.println("\t Here are the matching tasks in your list:");
                     System.out.println(e);
                     continue;
-                }
-
-                else {
+                } else {
                     handleExcept(" ");
                 }
 
@@ -172,10 +178,10 @@ public class Ui {
                     if (!input.equals("delete")) {
                         tasks.add(t);
                     }
-                    String reply = LINE + ans + "\t" + t.toString();
+                    String reply = LINE_BREAK + ans + "\t" + t.toString();
                     int siz = tasks.size();
                     System.out.println(reply);
-                    System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE);
+                    System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE_BREAK);
                     continue;
                 }
 
@@ -183,7 +189,7 @@ public class Ui {
                 String temp = Character.toUpperCase(input.charAt(0)) + " 0 " + descript;
                 Task a = createTask(temp);
                 tasks.add(a);
-                String resp = LINE + "\tadded: " + rehash + "\n" + LINE;
+                String resp = LINE_BREAK + "\tadded: " + rehash + "\n" + LINE_BREAK;
                 System.out.println(resp);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());

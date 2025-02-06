@@ -1,14 +1,17 @@
 package tests;
 
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
+
 import dexter.parser.Parser;
 import dexter.storage.Storage;
 import dexter.task.Deadline;
 import dexter.task.Task;
-import dexter.taskList.TaskList;
+import dexter.tasklist.TaskList;
 
-import java.io.FileNotFoundException;
-import java.time.LocalDate;
+
 public class DemoTest {
 
     @Test
@@ -27,7 +30,9 @@ public class DemoTest {
 
     @Test
     public void saveTest() {
-        TaskList myExtra, myCopy, myAfter;
+        TaskList myExtra;
+        TaskList myCopy;
+        TaskList myAfter;
 
         Storage storageE = new Storage("Extra.txt");
         Storage storageD = new Storage("data.txt");
