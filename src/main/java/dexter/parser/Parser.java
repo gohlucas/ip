@@ -1,12 +1,12 @@
 package dexter.parser;
 
-import dexter.task.Deadline;
-import dexter.task.Event;
-import dexter.task.ToDo;
-import dexter.task.Task;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+import dexter.task.Deadline;
+import dexter.task.Event;
+import dexter.task.Task;
+import dexter.task.ToDo;
 
 /**
  * Ingests user input and transmute it into method friendly variables

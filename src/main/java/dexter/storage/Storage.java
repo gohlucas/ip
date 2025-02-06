@@ -1,15 +1,17 @@
 package dexter.storage;
 
-import dexter.taskList.TaskList;
-import dexter.task.Task;
-import dexter.ui.Ui;
-
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import dexter.task.Task;
+import dexter.tasklist.TaskList;
+import dexter.ui.Ui;
+
+
 
 /**
  * Serves as an abstraction to store, process and save Tasks

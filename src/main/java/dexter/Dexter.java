@@ -1,16 +1,23 @@
 package dexter;
 
-import dexter.storage.Storage;
-import dexter.taskList.TaskList;
-import dexter.ui.Ui;
-
 import java.io.FileNotFoundException;
 
+import dexter.storage.Storage;
+import dexter.tasklist.TaskList;
+import dexter.ui.Ui;
+
+/**
+ * Serves as root file for execution of code
+ */
 public class Dexter {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Dexter object based on the pre-existing tasks in filePath (if any)
+     * @param filePath string of path to the file to read
+     */
     public Dexter(String filePath) {
         storage = new Storage(filePath);
 
@@ -23,6 +30,9 @@ public class Dexter {
         }
     }
 
+    /**
+     * Processes the task list and provides response to user
+     */
     public void run() {
         tasks = ui.run(tasks);
         storage.save(tasks);
