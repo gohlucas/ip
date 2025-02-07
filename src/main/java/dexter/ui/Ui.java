@@ -1,7 +1,6 @@
 package dexter.ui;
 
 import java.time.LocalDate;
-import java.util.Scanner;
 
 import dexter.parser.Parser;
 import dexter.task.Deadline;
@@ -86,31 +85,35 @@ public class Ui {
      * @param tasks pre-processes any existing tasks
      * @return list of tasks to be saved
      */
-    public TaskList run(TaskList tasks) {
-        String greet = LINE_BREAK + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
-                + "\tWhat can I do for you?\n"
-                + "\tDo you need help with investigating a crime scene?\n" + LINE_BREAK;
-        System.out.println(greet);
+    public String run(TaskList tasks, String input) {
+        String res;
+        //        String greet = LINE_BREAK + "\tHello! I'm Dexter Morgan, ahem...The Bay Harbour Butcher\n"
+        //                + "\tWhat can I do for you?\n"
+        //                + "\tDo you need help with investigating a crime scene?\n" + LINE_BREAK;
+        //        System.out.println(greet);
 
-        Scanner scan = new Scanner(System.in);
         String altReply = LINE_BREAK + "\tBye, Hope to see you again soon!\n" + LINE_BREAK;
         while (true) {
-            String input = scan.nextLine();
 
             if (input.equals("bye")) {
-                System.out.println(altReply);
-                scan.close();
-                break;
+                res = altReply;
+                return res;
             } else if (input.equals("list")) {
-                System.out.println(tasks);
-                continue;
+                res = tasks.toString();
+                return res;
             }
 
             try {
                 String[] keyWord = input.split(" ", 2);
                 input = keyWord[0];
                 if (keyWord.length < 2) {
-                    handleExcept(input);
+                    try {
+                        handleExcept(input);
+                    } catch (IllegalArgumentException e) {
+                        res = e.getMessage();
+                        return res;
+                    }
+
                 }
                 String descript = keyWord[1];
 
@@ -122,7 +125,7 @@ public class Ui {
                     String[] b = descript.split("/");
                     LocalDate ld = Parser.parseSafely(b[1].split(" ", 2)[1]);
                     if (ld == null) {
-                        continue;
+                        return "";
                     }
                     t = new Deadline(b[0], ld);
                 } else if (input.equals("event")) {
@@ -131,7 +134,7 @@ public class Ui {
                     int i = temp.lastIndexOf(" ");
                     LocalDate ld = Parser.parseSafely(temp.substring(0, i));
                     if (ld == null) {
-                        continue;
+                        return "";
                     }
                     String from = temp.substring(i).strip();
                     t = new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip());
@@ -146,30 +149,33 @@ public class Ui {
                     String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
                             : "Ok, I've marked this task as not done yet:\n";
                     String s = LINE_BREAK + "\t" + reply + "\n" + "\t" + a.toString() + "\n" + LINE_BREAK;
-                    System.out.println(s);
-                    continue;
+                    res = s;
+                    return res;
                 } else if (input.equals("due")) {
-                    System.out.println(LINE_BREAK);
                     int i = tasks.size();
                     for (int j = 0; j < i; j++) {
                         Task z = tasks.get(j);
                         LocalDate pp = Parser.parseSafely(descript.strip());
                         if (pp == null) {
-                            continue;
+                            return "";
                         }
                         if (z.isDue(pp)) {
-                            System.out.println("\t" + z);
+                            res = LINE_BREAK + "\t" + z + LINE_BREAK;
+                            return res;
                         }
                     }
-                    System.out.println(LINE_BREAK);
-                    continue;
+                //                    return res;
                 } else if (input.equals("find")) {
                     TaskList e = tasks.findKeyword(descript);
-                    System.out.println("\t Here are the matching tasks in your list:");
-                    System.out.println(e);
-                    continue;
+                    res = "\t Here are the matching tasks in your list:" + e;
+                    return res;
                 } else {
-                    handleExcept(" ");
+                    try {
+                        handleExcept(" ");
+                    } catch (IllegalArgumentException e) {
+                        res = e.getMessage();
+                        return res;
+                    }
                 }
 
                 if (t != null) {
@@ -181,21 +187,20 @@ public class Ui {
                     String reply = LINE_BREAK + ans + "\t" + t.toString();
                     int siz = tasks.size();
                     System.out.println(reply);
-                    System.out.println("\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE_BREAK);
-                    continue;
+                    res = reply + "\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE_BREAK;
+                    return res;
                 }
 
                 String rehash = input + " " + descript;
                 String temp = Character.toUpperCase(input.charAt(0)) + " 0 " + descript;
                 Task a = createTask(temp);
                 tasks.add(a);
-                String resp = LINE_BREAK + "\tadded: " + rehash + "\n" + LINE_BREAK;
-                System.out.println(resp);
+                res = LINE_BREAK + "\tadded: " + rehash + "\n" + LINE_BREAK;
+                return res;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                return e.getMessage();
             }
         }
-        return tasks;
     }
 
     /**
