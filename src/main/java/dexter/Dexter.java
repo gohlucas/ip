@@ -10,16 +10,16 @@ import dexter.ui.Ui;
  * Serves as root file for execution of code
  */
 public class Dexter {
+    private static final String FILE_PATH = "data.txt";
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
     /**
      * Constructs a Dexter object based on the pre-existing tasks in filePath (if any)
-     * @param filePath string of path to the file to read
      */
-    public Dexter(String filePath) {
-        storage = new Storage(filePath);
+    public Dexter() {
+        storage = new Storage(FILE_PATH);
 
         try {
             ui = new Ui();
@@ -33,13 +33,17 @@ public class Dexter {
     /**
      * Processes the task list and provides response to user
      */
-    public void run() {
-        tasks = ui.run(tasks);
+    public String run(String input) {
+        //        tasks = ui.run(tasks, input);
+        String res = ui.run(tasks, input);
         storage.save(tasks);
+        return res;
     }
 
+    public String getResponse(String input) {
+        return this.run(input);
+    }
     public static void main(String[] args) {
-        Dexter d = new Dexter("data.txt");
-        d.run();
     }
 }
+
