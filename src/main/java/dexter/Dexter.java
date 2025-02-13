@@ -34,7 +34,6 @@ public class Dexter {
      * Processes the task list and provides response to user
      */
     public String run(String input) {
-        //        tasks = ui.run(tasks, input);
         String res = ui.run(tasks, input);
         storage.save(tasks);
         return res;
