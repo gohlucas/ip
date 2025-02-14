@@ -164,7 +164,6 @@ public class Ui {
                             return res;
                         }
                     }
-                //                    return res;
                 } else if (input.equals("find")) {
                     TaskList e = tasks.findKeyword(descript);
                     res = "\t Here are the matching tasks in your list:" + e;
@@ -184,10 +183,10 @@ public class Ui {
                     if (!input.equals("delete")) {
                         tasks.add(t);
                     }
-                    String reply = LINE_BREAK + ans + "\t" + t.toString();
+                    String reply = LINE_BREAK + ans + "\t" + t;
                     int siz = tasks.size();
                     System.out.println(reply);
-                    res = reply + "\tNow you have " + String.valueOf(siz) + " tasks in the list.\n" + LINE_BREAK;
+                    res = reply + "\tNow you have " + siz + " tasks in the list.\n" + LINE_BREAK;
                     return res;
                 }
 
@@ -207,6 +206,7 @@ public class Ui {
      * Prints error for user
      */
     public void showError() {
-        System.out.println("There is no existing database, will start with no data");
+        System.out.println("There is no existing database, unable to write to a file, "
+                 + "will start with no data");
     }
 }

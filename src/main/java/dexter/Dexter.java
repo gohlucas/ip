@@ -20,7 +20,7 @@ public class Dexter {
      */
     public Dexter() {
         storage = new Storage(FILE_PATH);
-
+        assert storage != null : "Storage should be initialised";
         try {
             ui = new Ui();
             tasks = new TaskList(storage.load());
@@ -28,6 +28,7 @@ public class Dexter {
             ui.showError();
             tasks = new TaskList();
         }
+        assert tasks != null : "TaskList should be initialised";
     }
 
     /**
@@ -40,6 +41,7 @@ public class Dexter {
     }
 
     public String getResponse(String input) {
+        assert input != null : "Input should not be null";
         return this.run(input);
     }
     public static void main(String[] args) {
