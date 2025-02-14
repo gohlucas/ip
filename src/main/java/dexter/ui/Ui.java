@@ -109,7 +109,6 @@ public class Ui {
                         return res;
                     }
                 }
-
                 String rehash = input + " " + descript;
                 String temp = Character.toUpperCase(input.charAt(0)) + " 0 " + descript;
                 Task a = createTask(temp);
@@ -126,6 +125,7 @@ public class Ui {
      * Prints error for user
      */
     public void showError() {
-        System.out.println("There is no existing database, will start with no data");
+        System.out.println("There is no existing database, unable to write to a file, "
+                 + "will start with no data");
     }
 }
