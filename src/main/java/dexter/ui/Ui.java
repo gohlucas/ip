@@ -101,6 +101,9 @@ public class Ui {
                 case "find":
                     res = Parser.taskFinder(tasks, descript);
                     return res;
+                case "retrieve":
+                    res = Parser.eventFinder(tasks);
+                    return res;
                 default:
                     try {
                         Parser.handleExcept(input);

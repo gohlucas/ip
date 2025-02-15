@@ -1,4 +1,5 @@
-T 1 Buy duct tape and cling wrap
-D 1 Dispose body /by 2019-12-01
-E 0 Crime Scene Inspection /from 2021-10-26 3pm /to 4pm
-T 1 Renew yacht license
+T 1 Buy some chocolate
+D 1 Roll a dice /by 2021-11-21
+T 0 Renew driver's license
+E 0 Commit a crime/from 2022-03-01 3pm Banana Factory /to 6pm The banana here is good
+E 1 Sell a travel plan/from 2023-09-21 11am Dexter's House /to 6pm The client is so gullible

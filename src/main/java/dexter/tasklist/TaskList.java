@@ -2,6 +2,7 @@ package dexter.tasklist;
 
 import java.util.ArrayList;
 
+import dexter.task.Event;
 import dexter.task.Task;
 
 /**
@@ -61,6 +62,21 @@ public class TaskList {
             }
         }
         return new TaskList(keywordList);
+    }
+    /**
+     * Iterates through TaskList to find all Events
+     * @return List of Events
+     */
+    public ArrayList getEvents() {
+        ArrayList<String> eventList = new ArrayList<>();
+        for (int i = 0; i < myList.size(); i++) {
+            Task a = this.myList.get(i);
+            if (a instanceof Event) {
+                Event b = (Event) a;
+                eventList.add(b + ", here are the details: " + b.getDetails() + "\n");
+            }
+        }
+        return eventList;
     }
     @Override
     public String toString() {
