@@ -9,6 +9,9 @@ public class Event extends Task {
     private String from;
     private String to;
 
+    private String location;
+
+    private String details;
     /**
      * Constructs event task from saved file
      * @param description file record of task
@@ -17,10 +20,13 @@ public class Event extends Task {
      * @param to ending time of event
      * @param mark mark if task is done
      */
-    public Event(String description, LocalDate ld, String from, String to, String mark) {
+    public Event(String description, LocalDate ld, String from, String to,
+                 String location, String details, String mark) {
         super(description, ld, mark);
         this.from = from;
         this.to = to;
+        this.location = location;
+        this.details = details;
     }
 
     /**
@@ -30,8 +36,16 @@ public class Event extends Task {
      * @param from starting time of event
      * @param to ending time of event
      */
-    public Event(String description, LocalDate ld, String from, String to) {
-        this(description, ld, from, to, "unmark");
+    public Event(String description, LocalDate ld, String from, String to, String location, String details) {
+        this(description, ld, from, to, location, details, "unmark");
+    }
+
+    /**
+     * Returns details about the place
+     * @return string of details
+     */
+    public String getDetails() {
+        return this.details;
     }
 
     /**
@@ -40,7 +54,8 @@ public class Event extends Task {
      */
     @Override
     public String getAll() {
-        return "E " + super.getAll() + "/from " + super.getPseudoDate() + " " + this.from + " /to " + this.to;
+        return "E " + super.getAll() + "/from " + super.getPseudoDate() + " " + this.from + " " + this.location
+            + " /to " + this.to + " " + this.details;
     }
 
     /**
@@ -49,6 +64,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + super.getDate() + " " + from + ")" + " (to: " + to + ")";
+        return "[E]" + super.toString() + " (from: " + super.getDate() + " " + from + " " + this.location + ")"
+                + " (to: " + to + ") " + this.details;
     }
 }

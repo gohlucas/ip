@@ -2,6 +2,7 @@ package dexter.parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 import dexter.task.Deadline;
 import dexter.task.Event;
@@ -58,11 +59,10 @@ public class Parser {
      */
     public static Task equalsEvent(String description, String mark) {
         String[]b = description.split("/");
-        String temp = b[1].split(" ", 2)[1].strip();
-        int i = temp.lastIndexOf(" ");
-        LocalDate ld = Parser.parseSafely(temp.substring(0, i));
-        String from = temp.substring(i).strip();
-        return new Event(b[0].strip(), ld, from, b[2].split(" ", 2)[1].strip(), mark);
+        String[] temp = b[1].split(" ", 4);
+        String[] thirdGrp = b[2].split(" ", 3);
+        LocalDate ld = Parser.parseSafely(temp[1]);
+        return new Event(b[0].strip(), ld, temp[2], thirdGrp[1], temp[3].strip(), thirdGrp[2], mark);
     }
 
     /**
@@ -121,14 +121,14 @@ public class Parser {
             handleExcept("event");
         }
         String[] b = description.split("/");
-        String temp = b[1].split(" ", 2)[1].strip();
-        int i = temp.lastIndexOf(" ");
-        LocalDate ld = Parser.parseSafely(temp.substring(0, i));
+        String[] temp = b[1].split(" ", 4);
+        String[] thirdGrp = b[2].split(" ", 3);
+        LocalDate ld = Parser.parseSafely(temp[1]);
         if (ld == null) {
             return null;
         }
-        String from = temp.substring(i).strip();
-        return taskHandler(tasks, new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip()));
+        return taskHandler(tasks, new Event(
+                b[0].strip(), ld, temp[2], thirdGrp[1].strip(), temp[3].strip(), thirdGrp[2].strip()));
     }
 
     /**
@@ -230,5 +230,14 @@ public class Parser {
         String reply = LINE_BREAK + ans + "\t" + t + "\n";
         int siz = tasks.size();
         return reply + "\tNow you have " + siz + " tasks in the list.\n" + LINE_BREAK;
+    }
+
+    /**
+     * Handles the eventFinding process
+     * @return string of results containing events
+     */
+    public static String eventFinder(TaskList tasks) {
+        ArrayList c = tasks.getEvents();
+        return "\t Here is the Event List: \n" + c;
     }
 }
