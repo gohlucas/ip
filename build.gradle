@@ -66,6 +66,12 @@ shadowJar {
     archiveClassifier = null
 }
 
-run{
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+run {
     standardInput = System.in
 }

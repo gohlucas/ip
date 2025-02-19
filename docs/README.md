@@ -13,6 +13,7 @@ example: `deadline Buy a drink /by 2025-01-02`
 ```
 expected output
 ____________________________________________________________
+
 Got it. I've added this task:
 [D][] Buy a drink (by: Jan 2 2025)
 Now you have 2 tasks in the list.
