@@ -3,4 +3,4 @@ D 1 Dispose body/by 2019-12-01
 T 0 Renew yacht license
 E 0 Commit a felony/from 2025-01-01 3pm Chocolate Factory /to 6pm The chocolate here is good
 E 1 Sell an insurance plan/from 2023-09-21 11am Dexter's House /to 6pm The client is so gullible
-E 0 Sell an insurance plan/from 2023-09-21 11am Dexter's House /to 6pm The client is so gullible
+D 0 dispose body/by 2019-01-01

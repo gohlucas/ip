@@ -1,5 +1,6 @@
 package dexter.tasklist;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import dexter.task.Event;
@@ -27,8 +28,14 @@ public class TaskList {
         this.myList.remove(i);
     }
 
-    public Task get(int i) {
-        return this.myList.get(i);
+    public Task get(int i) throws IndexOutOfBoundsException {
+        Task t;
+        try {
+            t = this.myList.get(i);
+            return t;
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
     public int size() {
         return this.myList.size();
@@ -73,7 +80,7 @@ public class TaskList {
             Task a = this.myList.get(i);
             if (a instanceof Event) {
                 Event b = (Event) a;
-                eventList.add(b + ", here are the details: " + b.getDetails() + "\n");
+                eventList.add(b + "\n");
             }
         }
         return eventList;
