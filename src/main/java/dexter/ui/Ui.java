@@ -45,6 +45,12 @@ public class Ui {
     public String run(TaskList tasks, String input) {
         String res;
         String altReply = LINE_BREAK + "\tBye, Hope to see you again soon!\n" + LINE_BREAK;
+        String helpReply = "Here are the list of commands \n\n" + "todo [description]\n\n"
+                + "deadline [description] /by [YYYY-MM-DD]\n\n"
+                + "event [description] /from [YYYY-MM-DD] [startTime] [location] /to [endTime] "
+                + "[description about location]\n\n" + "mark [index]\n\n" + "unmark [index]\n\n"
+                + "due [YYYY-MM-DD] \n\n" + "find [keyword]\n\n" + "list\n\n" + "delete [index] \n\n"
+                + "retrieve event\n\n" + "bye\n\n";
         while (true) {
 
             if (input.equals("bye")) {
@@ -53,10 +59,11 @@ public class Ui {
             } else if (input.equals("list")) {
                 res = tasks.toString();
                 return res;
+            } else if (input.equals("help")) {
+                return helpReply;
             }
 
             try {
-                // could use a placeholder function to remove the arrowhead
                 String[] keyWord = input.split(" ", 2);
                 input = keyWord[0];
                 if (keyWord.length < 2) {
@@ -84,12 +91,7 @@ public class Ui {
                     return res;
                 case "delete":
                     int pos = Integer.valueOf(descript) - 1;
-                    t = tasks.get(pos);
-                    tasks.remove(pos);
-                    String ans = "\tNoted. I've removed this task:\n";
-                    String reply = LINE_BREAK + ans + "\t" + t;
-                    int siz = tasks.size();
-                    res = reply + "\tNow you have " + siz + " tasks in the list.\n" + LINE_BREAK;
+                    res = Parser.deleteHandler(pos, tasks);
                     return res;
                 case "mark":
                 case "unmark":
@@ -100,6 +102,9 @@ public class Ui {
                     return res;
                 case "find":
                     res = Parser.taskFinder(tasks, descript);
+                    return res;
+                case "retrieve":
+                    res = Parser.eventFinder(tasks);
                     return res;
                 default:
                     try {

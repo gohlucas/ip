@@ -43,6 +43,8 @@ public class DemoTest {
 
             Storage after = new Storage("data.txt");
             myAfter = new TaskList(after.load());
+            System.out.println(myAfter.toString());
+            System.out.println(myExtra.toString());
             assert(myAfter.toString().equals(myExtra.toString()));
             storageD.save(myCopy);
         } catch (FileNotFoundException e) {

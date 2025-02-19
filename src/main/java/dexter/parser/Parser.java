@@ -1,7 +1,9 @@
 package dexter.parser;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 import dexter.task.Deadline;
 import dexter.task.Event;
@@ -23,7 +25,6 @@ public class Parser {
         try {
             return LocalDate.parse(input);
         } catch (DateTimeParseException e) {
-            System.out.println("Invalid Date Format, YYYY-MM-DD required");
             return null;
         }
     }
@@ -58,11 +59,10 @@ public class Parser {
      */
     public static Task equalsEvent(String description, String mark) {
         String[]b = description.split("/");
-        String temp = b[1].split(" ", 2)[1].strip();
-        int i = temp.lastIndexOf(" ");
-        LocalDate ld = Parser.parseSafely(temp.substring(0, i));
-        String from = temp.substring(i).strip();
-        return new Event(b[0].strip(), ld, from, b[2].split(" ", 2)[1].strip(), mark);
+        String[] temp = b[1].split(" ", 4);
+        String[] thirdGrp = b[2].split(" ", 3);
+        LocalDate ld = Parser.parseSafely(temp[1]);
+        return new Event(b[0].strip(), ld, temp[2], thirdGrp[1], temp[3].strip(), thirdGrp[2], mark);
     }
 
     /**
@@ -100,11 +100,11 @@ public class Parser {
         case "todo":
             throw new ToDoException("todo requires an task description");
         case "deadline":
-            throw new DeadlineException(("deadline requires a end timing"));
+            throw new DeadlineException(("deadline requires a end timing and a prefix of /by"));
         case "event":
             throw new EventException("event requires a start and end timing");
         default:
-            throw new IllegalArgumentException("I'm not quite sure what you mean");
+            throw new IllegalArgumentException("I'm not quite sure what you mean, please try the \"help\" command");
         }
     }
 
@@ -121,14 +121,18 @@ public class Parser {
             handleExcept("event");
         }
         String[] b = description.split("/");
-        String temp = b[1].split(" ", 2)[1].strip();
-        int i = temp.lastIndexOf(" ");
-        LocalDate ld = Parser.parseSafely(temp.substring(0, i));
+        String[] temp = b[1].split(" ", 4);
+        String[] thirdGrp = b[2].split(" ", 3);
+        LocalDate ld = Parser.parseSafely(temp[1]);
+        String location = temp[3].strip();
+        String details = thirdGrp[2].strip();
+        if (location.equals("")) { return "Invalid Format, Location required"; }
+        if (details.equals("")) { return "Invalid Format, Details required"; }
         if (ld == null) {
-            return null;
+            return "Invalid Date Format, YYYY-MM-DD required";
         }
-        String from = temp.substring(i).strip();
-        return taskHandler(tasks, new Event(b[0], ld, from, b[2].split(" ", 2)[1].strip()));
+        return taskHandler(tasks, new Event(
+                b[0].strip(), ld, temp[2], thirdGrp[1].strip(), location, details));
     }
 
     /**
@@ -146,7 +150,7 @@ public class Parser {
         String[] b = description.split("/");
         LocalDate ld = Parser.parseSafely(b[1].split(" ", 2)[1]);
         if (ld == null) {
-            return null;
+            return "Invalid Date Format, YYYY-MM-DD required";
         }
         return taskHandler(tasks, new Deadline(b[0], ld));
     }
@@ -212,6 +216,10 @@ public class Parser {
     public static String markHandler(TaskList tasks, String description, String input) {
         int j = Integer.parseInt(description);
         Task a = tasks.get(j - 1);
+        if (a == null) {
+            String s = "Invalid index, no such task exists. Choose an index within the list";
+            return s;
+        }
         a.negateCurrentStatus(input);
         String reply = input.equals("mark") ? "Nice! I've marked this task as done:\n"
                 : "Ok, I've marked this task as not done yet:\n";
@@ -230,5 +238,34 @@ public class Parser {
         String reply = LINE_BREAK + ans + "\t" + t + "\n";
         int siz = tasks.size();
         return reply + "\tNow you have " + siz + " tasks in the list.\n" + LINE_BREAK;
+    }
+
+    /**
+     * Handles the eventFinding process
+     * @return string of results containing events
+     */
+    public static String eventFinder(TaskList tasks) {
+        ArrayList c = tasks.getEvents();
+        return "\t Here is the Event List: \n" + c;
+    }
+
+    /**
+     * Handles deletion process and printing of reply
+     * @param pos index of the task to remove in the list
+     * @param tasks TaskList object containing list of objects
+     * @return reply to user
+     */
+    public static String deleteHandler(int pos, TaskList tasks) {
+        Task t = tasks.get(pos);
+        if (t == null) {
+            String s = "Invalid index, no such task exists. Choose an index within the list";
+            return s;
+        }
+        tasks.remove(pos);
+        String ans = "\tNoted. I've removed this task:\n";
+        String reply = LINE_BREAK + ans + "\t" + t;
+        int siz = tasks.size();
+        String res = reply + "\tNow you have " + siz + " tasks in the list.\n" + LINE_BREAK;
+        return res;
     }
 }
