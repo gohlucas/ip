@@ -4,4 +4,4 @@ D 0 dispose body/by 2019-01-01
 T 0 dispose of trash
 D 0 finish peer appraisal/by 2025-02-19
 E 0 attend Bob's birthday party/from 2025-02-19 9am Bob's crib /to 6pm lovely place
-T 0 finish blood sample test
+T 0 finish blood sample testing
