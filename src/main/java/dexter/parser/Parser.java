@@ -1,6 +1,5 @@
 package dexter.parser;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -126,8 +125,12 @@ public class Parser {
         LocalDate ld = Parser.parseSafely(temp[1]);
         String location = temp[3].strip();
         String details = thirdGrp[2].strip();
-        if (location.equals("")) { return "Invalid Format, Location required"; }
-        if (details.equals("")) { return "Invalid Format, Details required"; }
+        if (location.equals("")) {
+            return "Invalid Format, Location required";
+        }
+        if (details.equals("")) {
+            return "Invalid Format, Details required";
+        }
         if (ld == null) {
             return "Invalid Date Format, YYYY-MM-DD required";
         }
@@ -178,7 +181,7 @@ public class Parser {
      */
     public static String taskFinder(TaskList tasks, String description) {
         TaskList c = tasks.findKeyword(description);
-        return "\t Here are the matching tasks in your list:" + c;
+        return "\t Here are the matching tasks in your list: \n" + c;
     }
 
     /**
@@ -195,7 +198,7 @@ public class Parser {
             Task z = tasks.get(j);
             LocalDate pp = Parser.parseSafely(description.strip());
             if (pp == null) {
-                return "";
+                return "Invalid Date Format, YYYY-MM-DD required";
             }
             if (z.isDue(pp)) {
                 String res = "\t" + z + "\n";
@@ -263,7 +266,7 @@ public class Parser {
         }
         tasks.remove(pos);
         String ans = "\tNoted. I've removed this task:\n";
-        String reply = LINE_BREAK + ans + "\t" + t;
+        String reply = LINE_BREAK + ans + "\t" + t + "\n";
         int siz = tasks.size();
         String res = reply + "\tNow you have " + siz + " tasks in the list.\n" + LINE_BREAK;
         return res;

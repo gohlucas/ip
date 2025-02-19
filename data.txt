@@ -1,6 +1,7 @@
 T 1 Buy duct tape and cling wrap
-D 1 Dispose body/by 2019-12-01
-T 0 Renew yacht license
-E 0 Commit a felony/from 2025-01-01 3pm Chocolate Factory /to 6pm The chocolate here is good
 E 1 Sell an insurance plan/from 2023-09-21 11am Dexter's House /to 6pm The client is so gullible
 D 0 dispose body/by 2019-01-01
+T 0 dispose of trash
+D 0 finish peer appraisal/by 2025-02-19
+E 0 attend Bob's birthday party/from 2025-02-19 9am Bob's crib /to 6pm lovely place
+T 0 finish cleaning room

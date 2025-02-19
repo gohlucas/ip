@@ -126,11 +126,4 @@ public class Ui {
         }
     }
 
-    /**
-     * Prints error for user
-     */
-    public void showError() {
-        System.out.println("There is no existing database, unable to write to a file, "
-                 + "will start with no data");
-    }
 }

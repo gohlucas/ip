@@ -1,6 +1,5 @@
 package dexter.tasklist;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import dexter.task.Event;
@@ -90,7 +89,7 @@ public class TaskList {
         StringBuilder builder = new StringBuilder();
         builder.append(LINE_BREAK);
         for (int i = 0; i < myList.size(); i++) {
-            String s = "\t" + String.valueOf(i + 1) + ". " + myList.get(i) + "\n";
+            String s = "\t" + (i + 1) + ". " + myList.get(i) + "\n";
             builder.append(s);
         }
         builder.append(LINE_BREAK);

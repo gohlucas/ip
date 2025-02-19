@@ -1,6 +1,7 @@
 package dexter;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -23,7 +24,7 @@ public class MainWindow extends AnchorPane {
     private Dexter dexter;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/debbie.jpg"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/dexter.jpeg"));
+    private Image dexterImage = new Image(this.getClass().getResourceAsStream("/images/dexter.jpeg"));
 
     /**
      * Initialises the GUI and prints welcome message
@@ -33,12 +34,13 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
         dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog("Hello! I'm Dexter. How can I help you today?", dukeImage));
+                DialogBox.getDukeDialog("Hello! I'm Dexter. How can I help you today?", dexterImage));
     }
 
     /** Injects the Dexter instance */
     public void setDexter(Dexter d) {
         dexter = d;
+        dexter.initialise(this);
     }
 
     /**
@@ -51,8 +53,20 @@ public class MainWindow extends AnchorPane {
         String response = dexter.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getDukeDialog(response, dexterImage)
         );
         userInput.clear();
+    }
+
+
+    /**
+     * Prints error for user
+     */
+    public void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("An error occurred");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
